@@ -1,0 +1,10 @@
+# name,type,dir,repo
+Nvim Treesitter,start,nvim-treesitter,https://github.com/nvim-treesitter/nvim-treesitter.git
+OneDark Theme,start,onedark,https://github.com/navarasu/onedark.nvim.git
+Toggle Terminal,start,toggleterm,https://github.com/akinsho/toggleterm.nvim.git
+File Explorer Tree,start,nvim-tree,https://github.com/nvim-tree/nvim-tree.lua.git
+LuaLine,start,lualine,https://github.com/nvim-lualine/lualine.nvim.git
+DevIcons,start,nvim-web-devicons,https://github.com/nvim-tree/nvim-web-devicons.git
+Rainbow Delimiters,start,rainbow-delimiters,https://github.com/HiPhish/rainbow-delimiters.nvim.git
+Indent Blankline,start,indent-blankline,https://github.com/lukas-reineke/indent-blankline.nvim.git
+Vim Match-up,start,vim-matchup,https://github.com/andymass/vim-matchup.git
