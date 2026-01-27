@@ -1,6 +1,6 @@
 -- Set global leader key for user keymaps
-vim.g.mapleader = " "
-vim.g.maplocalleader = " "
+vim.g.mapleader = vim.api.nvim_replace_termcodes([[<C-Space>]], true, true, true)
+vim.g.maplocalleader = vim.api.nvim_replace_termcodes([[<C-Space>]], true, true, true)
 vim.keymap.set({ "n", "v", "o" }, "<Space>", "<Nop>", { silent = true })
 
 -- Load keymaps
