@@ -10,6 +10,9 @@ require("plugins/nvim-web-devicons") -- nvim-tree, lualine
 -- File Explorer side panel
 require("plugins/nvim-tree")
 
+-- Buffer Manager
+require("plugins/buffer_manager")
+
 -- Statusbar
 require("plugins/lualine")
 

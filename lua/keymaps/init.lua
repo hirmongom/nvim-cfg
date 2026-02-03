@@ -5,4 +5,5 @@ vim.keymap.set({ "n", "v", "o" }, "<Space>", "<Nop>", { silent = true })
 
 -- Load keymaps
 require("keymaps/keymaps")
-require("keymaps/tree")
+require("keymaps/nvim-tree")
+require("keymaps/buffer_manager")
