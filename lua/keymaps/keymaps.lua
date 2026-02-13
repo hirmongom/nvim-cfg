@@ -25,7 +25,7 @@ keymap(
 -- Formatting --------------------------------------------------------------------------------------
 keymap(
   "n",
-  "<leader>p",
+  "<leader>t",
   "<cmd>retab<CR>",
   { desc = "Change tab type to current config" }
 )

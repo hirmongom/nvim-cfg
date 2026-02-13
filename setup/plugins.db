@@ -1,6 +1,7 @@
 # name,type,dir,repo
 Plenary Lib,start,plenary,https://github.com/nvim-lua/plenary.nvim.git
 Nvim Treesitter,start,nvim-treesitter,https://github.com/nvim-treesitter/nvim-treesitter.git
+Telescope,start,telescope,https://github.com/nvim-telescope/telescope.nvim.git
 OneDark Theme,start,onedark,https://github.com/navarasu/onedark.nvim.git
 Toggle Terminal,start,toggleterm,https://github.com/akinsho/toggleterm.nvim.git
 File Explorer Tree,start,nvim-tree,https://github.com/nvim-tree/nvim-tree.lua.git

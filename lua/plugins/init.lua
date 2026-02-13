@@ -1,6 +1,9 @@
 -- Treesitter
 require("plugins/nvim-treesitter")
 
+-- Telescope
+require("plugins/telescope")
+
 -- Theme
 require("plugins/onedark")
 
