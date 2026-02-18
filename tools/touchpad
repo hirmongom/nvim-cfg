@@ -3,82 +3,313 @@
 set -euo pipefail
 
 SHOW_NOTIFY=0
+ACTION=""
 MODE=""
 
+EVENTS='enabled'
+TAP_TO_CLICK="true"
+SCROLLING="true"
+
+####################################################################################################
 usage()
 {
   echo "Usage:"
-  echo "  touchpad [--notify|-n] [--enable|-e | --disable|-d | --toggle|-t]"
+  echo "  touchpad --notify|-n"
+  echo "  touchpad [--notify|-n] (--enable|-e | --disable|-d | --toggle|-t) "
+  echo "            (--simple|-s | --alternate|-a | --full|-f)"
+  echo ""
+  echo "Notes:"
+  echo "  - Only one action and one mode can be provided."
+  echo "  - An action requires a mode."
+  echo "  - --notify displays the current status if used alone,"
+  echo "      or shows a notification of the action performed if used with an action."
+  echo "  - Toggle cannot be used with --full mode."
+  echo "  - Disabling tap-to-click in simple mode does not prevent the physical"
+  echo "    touchpad button from generating clicks. Use --alternate or --full mode"
+  echo "    to fully disable all click events."
+  echo ""
+  echo "Known Bugs:"
+  echo "  - Repeatedly toggling send-events (alternate mode) can cause touchpad"
+  echo "    glitches where actions require +1 fingers (click & move with 2, right click"
+  echo "    & scrolling with 3, middle click with 4)."
+  echo ""
+  echo "Actions:"
+  echo "  -e, --enable      Enable selected mode"
+  echo "  -d, --disable     Disable selected mode"
+  echo "  -t, --toggle      Toggle selected mode (not valid with --full)"
+  echo ""
+  echo "Modes:"
+  echo "  -s, --simple      tap-to-click & two-finger-scrolling-enabled"
+  echo "  -a, --alternate   send-events only"
+  echo "  -f, --full        tap-to-click, two-finger-scrolling-enabled"
+  echo "                      & send-events"
+  echo ""
+  echo "Other:"
+  echo "  -n, --notify      Show status or notification of performed action"
+  echo "  -h, --help        Show this help message"
+  echo ""
+  echo "Examples:"
+  echo "  touchpad --enable --simple          # enable tap-to-click + scrolling"
+  echo "  touchpad --disable --alternate      # disable send-events"
+  echo "  touchpad --toggle --simple          # toggle tap-to-click + scrolling"
+  echo "  touchpad --enable --full --notify   # enable everything and notify"
+  echo "  touchpad --notify                   # just show current status"
   exit 1
 }
 
+####################################################################################################
+get()
+{
+  EVENTS=$(gsettings get org.gnome.desktop.peripherals.touchpad send-events)
+  TAP_TO_CLICK=$(gsettings get org.gnome.desktop.peripherals.touchpad tap-to-click)
+  SCROLLING=$(gsettings get org.gnome.desktop.peripherals.touchpad two-finger-scrolling-enabled)
+}
+
+####################################################################################################
 toggle()
 {
-  STATE=$(gsettings get org.gnome.desktop.peripherals.touchpad send-events)
+  case "$MODE" in
+    full)
+      echo "Error: toggle is not allowed with full mode"
+      echo "  Use --enable or --disable with --full"
+      exit 1
+      ;;
 
-  if [ "$STATE" = "'enabled'" ]; then
-    gsettings set org.gnome.desktop.peripherals.touchpad send-events 'disabled'
-    if [ $SHOW_NOTIFY -eq 1 ]; then
-      notify-send -h int:transient:1 -a "Touchpad" "Disabled"
-    fi
-  else
-    gsettings set org.gnome.desktop.peripherals.touchpad send-events 'enabled'
-    if [ $SHOW_NOTIFY -eq 1 ]; then
-      notify-send -h int:transient:1 -a "Touchpad" "Enabled"
-    fi
-  fi
+    alternate)
+      if [ "$EVENTS" = "'enabled'" ]; then
+        gsettings set \
+          org.gnome.desktop.peripherals.touchpad \
+          send-events 'disabled'
+        [ $SHOW_NOTIFY -eq 1 ] && \
+          notify-send -h int:transient:1 \
+          -a "Touchpad" "Alternate: Disabled"
+      else
+        gsettings set \
+          org.gnome.desktop.peripherals.touchpad \
+          send-events 'enabled'
+        [ $SHOW_NOTIFY -eq 1 ] && \
+          notify-send -h int:transient:1 \
+          -a "Touchpad" "Alternate: Enabled"
+      fi
+      ;;
+
+    simple)
+      if [ "$TAP_TO_CLICK" = "true" ]; then
+        gsettings set \
+          org.gnome.desktop.peripherals.touchpad \
+          tap-to-click false
+        gsettings set \
+          org.gnome.desktop.peripherals.touchpad \
+          two-finger-scrolling-enabled false
+        [ $SHOW_NOTIFY -eq 1 ] && \
+          notify-send -h int:transient:1 \
+          -a "Touchpad" "Simple: Disabled"
+      else
+        gsettings set \
+          org.gnome.desktop.peripherals.touchpad \
+          tap-to-click true
+        gsettings set \
+          org.gnome.desktop.peripherals.touchpad \
+          two-finger-scrolling-enabled true
+        [ $SHOW_NOTIFY -eq 1 ] && \
+          notify-send -h int:transient:1 \
+          -a "Touchpad" "Simple: Enabled"
+      fi
+      ;;
+
+    *)
+      echo "Internal error: invalid mode '$MODE'"
+      exit 1
+      ;;
+  esac
 }
 
+####################################################################################################
 enable()
 {
-  gsettings set org.gnome.desktop.peripherals.touchpad send-events 'enabled'
-  if [ $SHOW_NOTIFY -eq 1 ]; then
-    notify-send -h int:transient:1 -a "Touchpad" "Enabled"
-  fi
+  case "$MODE" in
+    alternate)
+      gsettings set \
+        org.gnome.desktop.peripherals.touchpad \
+        send-events 'enabled'
+
+      [ $SHOW_NOTIFY -eq 1 ] && \
+        notify-send -h int:transient:1 \
+        -a "Touchpad" "Alternate: Enabled"
+      ;;
+
+    simple)
+      gsettings set \
+        org.gnome.desktop.peripherals.touchpad \
+        tap-to-click true
+      gsettings set \
+        org.gnome.desktop.peripherals.touchpad \
+        two-finger-scrolling-enabled true
+
+      [ $SHOW_NOTIFY -eq 1 ] && \
+        notify-send -h int:transient:1 \
+        -a "Touchpad" "Simple: Enabled"
+      ;;
+
+    full)
+      gsettings set \
+        org.gnome.desktop.peripherals.touchpad \
+        tap-to-click true
+      gsettings set \
+        org.gnome.desktop.peripherals.touchpad \
+        two-finger-scrolling-enabled true
+      gsettings set \
+        org.gnome.desktop.peripherals.touchpad \
+        send-events 'enabled'
+
+      [ $SHOW_NOTIFY -eq 1 ] && \
+        notify-send -h int:transient:1 \
+        -a "Touchpad" "Full: Enabled"
+      ;;
+
+    *)
+      echo "Internal error: invalid mode '$MODE'"
+      exit 1
+      ;;
+  esac
 }
 
+####################################################################################################
 disable()
 {
-  gsettings set org.gnome.desktop.peripherals.touchpad send-events 'disabled'
-  if [ $SHOW_NOTIFY -eq 1 ]; then
-    notify-send -h int:transient:1 -a "Touchpad" "Disabled"
-  fi
+  case "$MODE" in
+    alternate)
+      gsettings set \
+        org.gnome.desktop.peripherals.touchpad \
+        send-events 'disabled'
+
+      [ $SHOW_NOTIFY -eq 1 ] && \
+        notify-send -h int:transient:1 \
+        -a "Touchpad" "Alternate: Disabled"
+      ;;
+
+    simple)
+      gsettings set \
+        org.gnome.desktop.peripherals.touchpad \
+        tap-to-click false
+      gsettings set \
+        org.gnome.desktop.peripherals.touchpad \
+        two-finger-scrolling-enabled false
+
+      [ $SHOW_NOTIFY -eq 1 ] && \
+        notify-send -h int:transient:1 \
+        -a "Touchpad" "Simple: Disabled"
+      ;;
+
+    full)
+      gsettings set \
+        org.gnome.desktop.peripherals.touchpad \
+        tap-to-click false
+      gsettings set \
+        org.gnome.desktop.peripherals.touchpad \
+        two-finger-scrolling-enabled false
+      gsettings set \
+        org.gnome.desktop.peripherals.touchpad \
+        send-events 'disabled'
+
+      [ $SHOW_NOTIFY -eq 1 ] && \
+        notify-send -h int:transient:1 \
+        -a "Touchpad" "Full: Disabled"
+      ;;
+
+    *)
+      echo "Internal error: invalid mode '$MODE'"
+      exit 1
+      ;;
+  esac
 }
 
+####################################################################################################
+notify()
+{
+  local header="gsettings org.gnome.desktop.peripherals.touchpad"
+
+  local body="$header \
+    \r\ttap-to-click: $TAP_TO_CLICK \
+    \r\ttwo-finger-scrolling-enabled: $SCROLLING \
+    \r\tsend-events: $EVENTS"
+
+  notify-send \
+    -h int:transient:1 \
+    -a "Touchpad" \
+    "Touchpad" \
+    "$body"
+}
+
+####################################################################################################
 while [ "$#" -gt 0 ]; do
   case "$1" in
     -n | --notify)
       SHOW_NOTIFY=1
       ;;
+
     -e | --enable)
-      if [ -n "$MODE" ]; then
-        echo "Error: multiple mode options provided"
+      if [ -n "$ACTION" ]; then
+        echo "Error: multiple action options provided"
         exit 1
       fi
-      MODE="enable"
+      ACTION="enable"
       ;;
+
     -d | --disable)
-      if [ -n "$MODE" ]; then
-        echo "Error: multiple mode options provided"
+      if [ -n "$ACTION" ]; then
+        echo "Error: multiple action options provided"
         exit 1
       fi
-      MODE="disable"
+      ACTION="disable"
       ;;
+
     -t | --toggle)
+      if [ -n "$ACTION" ]; then
+        echo "Error: multiple action options provided"
+        exit 1
+      fi
+      ACTION="toggle"
+      ;;
+
+    -s | --simple)
       if [ -n "$MODE" ]; then
         echo "Error: multiple mode options provided"
         exit 1
       fi
-      MODE="toggle"
+      MODE="simple"
       ;;
+
+    -a | --alternate)
+      if [ -n "$MODE" ]; then
+        echo "Error: multiple mode options provided"
+        exit 1
+      fi
+      MODE="alternate"
+      ;;
+
+    -f | --full)
+      if [ -n "$MODE" ]; then
+        echo "Error: multiple mode options provided"
+        exit 1
+      fi
+      MODE="full"
+      ;;
+
+    -h | --help)
+      usage
+      ;;
+
     --)
       shift
       break
       ;;
+
     -*)
       echo "Error: unknown option '$1'"
       exit 1
       ;;
+
     *)
       echo "Error: unexpected argument '$1'"
       exit 1
@@ -87,24 +318,46 @@ while [ "$#" -gt 0 ]; do
   shift
 done
 
-# Require a mode
-if [ -z "$MODE" ]; then
+####################################################################################################
+get
+
+####################################################################################################
+# Notify only (no action, no mode)
+if [ -z "$ACTION" ] && [ "$SHOW_NOTIFY" -eq 1 ]; then
+  notify
+  exit 1
+fi
+
+####################################################################################################
+# No action and no notify → usage
+if [ -z "$ACTION" ] && [ "$SHOW_NOTIFY" -eq 0 ]; then
   usage
   exit 1
 fi
 
-case "$MODE" in
+####################################################################################################
+# Action requires a mode
+if [ -n "$ACTION" ] && [ -z "$MODE" ]; then
+  echo "Error: action requires a mode (--simple, --alternate or --full)"
+  exit 1
+fi
+
+####################################################################################################
+case "$ACTION" in
   enable)
     enable
+    exit 1
     ;;
   disable)
     disable
+    exit 1
     ;;
   toggle)
     toggle
+    exit 1
     ;;
   *)
-    echo "Internal error: invalid mode '$MODE'"
+    echo "Internal error: invalid action '$ACTION'"
     exit 1
     ;;
 esac

@@ -5,6 +5,7 @@ return function (group)
 			.. "/tools/touchpad"
 
 		local args = { script, "--" .. mode }
+    table.insert(args, "--simple")
 
 		if notify then
 			table.insert(args, "--notify")
@@ -17,14 +18,14 @@ return function (group)
 	vim.api.nvim_create_autocmd("VimEnter", {
 		group = group,
 		callback = function()
-			run_tool("disable", true)
+			run_tool("disable", false)
 		end,
 	})
 
 	vim.api.nvim_create_autocmd("VimLeavePre", {
 		group = group,
 		callback = function()
-			run_tool("enable", true)
+			run_tool("enable", false)
 		end,
 	})
 
@@ -32,14 +33,14 @@ return function (group)
 	vim.api.nvim_create_autocmd("FocusGained", {
 		group = group,
 		callback = function()
-			run_tool("disable", true)
+			run_tool("disable", false)
 		end,
 	})
 
 	vim.api.nvim_create_autocmd("FocusLost", {
 		group = group,
 		callback = function()
-			run_tool("enable", true)
+			run_tool("enable", false)
 		end,
 	})
 
