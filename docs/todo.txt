@@ -1,0 +1,24 @@
+Plugins:
+  - @TODO tree view?
+  - Relative + absulute numbers fully visible
+  - Spellcheck?
+  - Language autocomplete (not really), mostly like a "helper"
+
+Comment line breaks:
+  - Grab max columns from nvim settings
+  - New keymaps & autocmds:
+    * fill & close based on language (e.g. cpp => (n * "*") + "/")
+    * fill full based on language (e.g. cpp => "/" + (n * "*") + "/")
+  - Do i trigger "newline" after fill? (<CR>)
+
+Small Reformatting Project:
+  - Add "event" prior to saving (:w) which reformats entire file to save based on programming
+    language (file extension) and predefined "syntax conventions" (defined separately on files and
+    with settings possibility of linking extension with convention file)
+
+Configuration:
+  - Buffer list plugin:
+    * Easy visual separation of file name(+ext) and path
+  - Status bar:
+    * top bar only have file name(+ext) and no path. Clock stays tho.
+  - May need a root folder name somewhere to easily identify nvim instances. Maybe window title?
