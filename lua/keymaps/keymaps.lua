@@ -1,4 +1,5 @@
 local keymap = vim.keymap.set
+local globals = require("globals")
 
 -- Buffers -----------------------------------------------------------------------------------------
 keymap(
@@ -30,26 +31,25 @@ keymap(
   { desc = "Change tab type to current config" }
 )
 
-keymap(
-  "i",
-  "<C-f>",
-  function()
-    local target = 100
-    local col = vim.fn.col(".")
-    local char = vim.fn.getcharstr()
+-- Fill --------------------------------------------------------------------------------------------
+local fill = require("util.fill")
+keymap("i", "<C-f>f", fill.full,
+{
+  desc =
+    "Insert full banner comment based on filetype preset, filling "
+    .. "from column 1 to maxColumns (included)",
+})
 
-    if col > target then
-      return
-    end
+keymap("i", "<C-f>s", fill.suffix,
+{
+  desc =
+    "Insert banner comment suffix based on filetype preset, filling from "
+    .. "cursor position to maxColumns (included)",
+})
 
-    local count = target - col + 1
-    local fill = string.rep(char, count)
-
-    vim.api.nvim_put({ fill }, "c", true, true)
-  end,
-  {
-    desc = "Fill all columns from cursor up to 100 (included) with the given character",
-    noremap = true,
-    silent = true,
-  }
-)
+keymap("i", "<C-f>c", fill.char,
+{
+  desc =
+    "Fill from cursor position to maxColumns (included) using a typed "
+    .. "custom character",
+})
