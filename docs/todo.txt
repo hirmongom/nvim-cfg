@@ -4,13 +4,6 @@ Plugins:
   - Spellcheck?
   - Language autocomplete (not really), mostly like a "helper"
 
-Comment line breaks:
-  - Grab max columns from nvim settings
-  - New keymaps & autocmds:
-    * fill & close based on language (e.g. cpp => (n * "*") + "/")
-    * fill full based on language (e.g. cpp => "/" + (n * "*") + "/")
-  - Do i trigger "newline" after fill? (<CR>)
-
 Small Reformatting Project:
   - Add "event" prior to saving (:w) which reformats entire file to save based on programming
     language (file extension) and predefined "syntax conventions" (defined separately on files and
@@ -22,3 +15,10 @@ Configuration:
   - Status bar:
     * top bar only have file name(+ext) and no path. Clock stays tho.
   - May need a root folder name somewhere to easily identify nvim instances. Maybe window title?
+  - Toggleterm plugin:
+    * Keymap to scroll up/down C-<k-j>
+    * Bigger one, maybe as tab?
+  - Don't create "empty" buffer when no buffer opened
+
+Font:
+  - Need new font, current one is bothering me
