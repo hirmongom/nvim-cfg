@@ -16,7 +16,7 @@ vim.o.scrolloff = 2
 -- Control whether indentation uses tabs or spaces (true for spaces)
 vim.o.expandtab = true
 -- Define how wide a tab character is rendered on screen
-vim.o.tabstop = 2
+vim.o.tabstop = require("globals").tabSize
 
 -- Wrapping ----------------------------------------------------------------------------------------
 -- Control whether long lines are visually wrapped on screen
@@ -30,7 +30,7 @@ vim.o.showbreak = "↪ "
 
 -- Visual Guides -----------------------------------------------------------------------------------
 -- Display a visual guide at column(s)
-vim.o.colorcolumn = "101"
+vim.o.colorcolumn = (require("globals").maxColumns + 1) .. ""
 
 -- Other -------------------------------------------------------------------------------------------
 -- Enable 24-bit colour
