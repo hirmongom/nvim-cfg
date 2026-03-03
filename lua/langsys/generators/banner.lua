@@ -1,10 +1,10 @@
-local globals = require("globals")
-
 local M = {}
 
+local globals = require("globals")
 local max = globals.maxColumns
 
-local function generate(prefix, fill, suffix)
+----------------------------------------------------------------------------------------------------
+function M.generate(prefix, fill, suffix)
   local full =
     prefix ..
     string.rep(fill, max - #prefix - #suffix) ..
@@ -31,16 +31,5 @@ local function generate(prefix, fill, suffix)
   }
 end
 
-M.by_ft =
-{
-  c      = generate("/", "*", "/"),
-  cpp    = generate("/", "*", "/"),
-  h      = generate("/", "*", "/"),
-  hpp    = generate("/", "*", "/"),
-
-  python = generate("", "#", ""),
-  sh     = generate("", "#", ""),
-  lua    = generate("", "-", ""),
-}
-
+----------------------------------------------------------------------------------------------------
 return M

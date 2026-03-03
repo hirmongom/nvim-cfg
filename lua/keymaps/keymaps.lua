@@ -1,5 +1,6 @@
 local keymap = vim.keymap.set
 local globals = require("globals")
+local wrappers = require("keymaps.wrappers")
 
 -- Buffers -----------------------------------------------------------------------------------------
 keymap(
@@ -63,4 +64,26 @@ keymap(
   fill.char,
   { desc = "Fill from cursor position to maxColumns (included) using a typed "
     .. "custom character" }
+)
+
+keymap(
+  "i",
+  "<C-f><C-f>",
+  wrappers.alternate_fill(fill.full),
+  { desc = "Insert full banner comment (alternate mode: temporary toggle of fill_auto_nl)" }
+)
+
+keymap(
+  "i",
+  "<C-f><C-s>",
+  wrappers.alternate_fill(fill.suffix),
+  { desc = "Insert banner suffix (alternate mode: temporary toggle of fill_auto_nl)" }
+)
+
+keymap(
+  "i",
+  "<C-f><C-c>",
+  wrappers.alternate_fill(fill.char),
+  { desc = "Fill from cursor using a custom char (alternate mode: temporary toggle of "
+    .. "fill_auto_nl)" }
 )

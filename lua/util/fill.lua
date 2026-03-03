@@ -1,12 +1,9 @@
 local globals = require("globals")
-local presets = require("presets.banner_comments")
+local resolver = require("langsys.resolver")
 
 local M = {}
 
-local function get_ft()
-  return vim.bo.filetype
-end
-
+----------------------------------------------------------------------------------------------------
 local function insert(fill)
   if not fill then return end
 
@@ -16,15 +13,16 @@ local function insert(fill)
   -- insert at cursor
   vim.api.nvim_put({ fill }, "c", true, true)
 
-  if row < last_line then
-    -- move to existing next line
-    vim.api.nvim_win_set_cursor(0, { row + 1, 0 })
-  else
-    -- create new line and move cursor to it (equivalent to <CR>)
-    vim.api.nvim_put({ "" }, "l", true, true)
+  if globals.fill_auto_nl or row == last_line then
+    -- create new line
+    vim.api.nvim_put({ "" }, "l", true, false) -- follow = false
   end
+
+  -- move to existing next line
+  vim.api.nvim_win_set_cursor(0, { row + 1, 0 })
 end
 
+----------------------------------------------------------------------------------------------------
 function M.char()
   local col = vim.fn.col(".")
   local max = globals.maxColumns
@@ -35,23 +33,23 @@ function M.char()
   insert(string.rep(char, max - col + 1))
 end
 
+----------------------------------------------------------------------------------------------------
 function M.suffix()
+  local language = resolver.get()
+  if not language then return end
+
   local col = vim.fn.col(".")
-  local ft  = get_ft()
 
-  local preset = presets.by_ft[ft]
-  if not preset then return end
-
-  insert(preset.suffix[col])
+  insert(language.comment.banner.suffix[col])
 end
 
+----------------------------------------------------------------------------------------------------
 function M.full()
-  local ft = get_ft()
+  local language = resolver.get()
+  if not language then return end
 
-  local preset = presets.by_ft[ft]
-  if not preset then return end
-
-  insert(preset.full)
+  insert(language.comment.banner.full)
 end
 
+----------------------------------------------------------------------------------------------------
 return M

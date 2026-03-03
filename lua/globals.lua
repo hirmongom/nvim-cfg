@@ -5,4 +5,7 @@ globals.leader = " "
 globals.maxColumns = 100
 globals.tabSize = 2
 
+-- Insert a new line after doing a fill
+globals.fill_auto_nl = true
+
 return globals
