@@ -15,10 +15,10 @@ Configuration:
   - Status bar:
     * top bar only have file name(+ext) and no path. Clock stays tho.
   - May need a root folder name somewhere to easily identify nvim instances. Maybe window title?
-  - Toggleterm plugin:
-    * Keymap to scroll up/down C-<k-j>
-    * Bigger one, maybe as tab?
-  - Don't create "empty" buffer when no buffer opened
+  - Comment headers should add a newline instead of just moving cursor? make based on "setting"
 
 Font:
   - Need new font, current one is bothering me
+
+Keymaps + behaviour:
+  - Select block/lines in visual, the "comment out" selected lines
