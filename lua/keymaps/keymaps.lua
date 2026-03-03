@@ -23,6 +23,14 @@ keymap(
   { desc = "Switch to previous buffer in list" }
 )
 
+-- Highlights --------------------------------------------------------------------------------------
+keymap(
+  "n",
+  "<leader>h",
+  "<cmd>nohlsearch<CR>",
+  { desc = "Stop highlights from <hlsearch>" }
+)
+
 -- Formatting --------------------------------------------------------------------------------------
 keymap(
   "n",
@@ -33,23 +41,26 @@ keymap(
 
 -- Fill --------------------------------------------------------------------------------------------
 local fill = require("util.fill")
-keymap("i", "<C-f>f", fill.full,
-{
-  desc =
-    "Insert full banner comment based on filetype preset, filling "
-    .. "from column 1 to maxColumns (included)",
-})
+keymap(
+  "i",
+  "<C-f>f",
+  fill.full,
+  { desc = "Insert full banner comment based on filetype preset, filling "
+    .. "from column 1 to maxColumns (included)" }
+)
 
-keymap("i", "<C-f>s", fill.suffix,
-{
-  desc =
-    "Insert banner comment suffix based on filetype preset, filling from "
-    .. "cursor position to maxColumns (included)",
-})
+keymap(
+  "i",
+  "<C-f>s",
+  fill.suffix,
+  { desc = "Insert banner comment suffix based on filetype preset, filling from "
+    .. "cursor position to maxColumns (included)" }
+)
 
-keymap("i", "<C-f>c", fill.char,
-{
-  desc =
-    "Fill from cursor position to maxColumns (included) using a typed "
-    .. "custom character",
-})
+keymap(
+  "i",
+  "<C-f>c",
+  fill.char,
+  { desc = "Fill from cursor position to maxColumns (included) using a typed "
+    .. "custom character" }
+)
