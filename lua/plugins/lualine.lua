@@ -34,18 +34,21 @@ require("lualine").setup {
     },
   },
   tabline = {
-    lualine_a = { 
-      { "buffers", 
-        mode = 4,
-        icons_enabled = false,
-        filetype_names = {
-          NvimTree = "\u{f07c}",
-        },
-        buffers_color = {
-          active = "lualine_a_insert",
-          inactive = "lualine_a_inactive",
-        },
+    lualine_a = {
+      { "filename",
+        color = custom_colour,
       },
+      -- { "buffers", 
+      --  mode = 4,
+      --  icons_enabled = false,
+      --  filetype_names = {
+      --    NvimTree = "\u{f07c}",
+      --  },
+      --  buffers_color = {
+      --    active = "lualine_a_insert",
+      --    inactive = "lualine_a_inactive",
+      --  },
+      --},
     },
     lualine_z = { 
       { "datetime",
