@@ -1,3 +1,8 @@
+-- Title -------------------------------------------------------------------------------------------
+-- Display current working directory as title (if terminal supports it)
+vim.o.title = true
+vim.o.titlestring = "%{getcwd()}"
+
 -- Line numbers ------------------------------------------------------------------------------------
 -- Enable display of absolute line numbers
 vim.o.number = true
