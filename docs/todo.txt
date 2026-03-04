@@ -9,9 +9,5 @@ Small Reformatting Project:
     language (file extension) and predefined "syntax conventions" (defined separately on files and
     with settings possibility of linking extension with convention file)
 
-Configuration:
-  - Buffer list plugin:
-    * Easy visual separation of file name(+ext) and path
-
 Keymaps + behaviour:
   - Select block/lines in visual, the "comment out" selected lines
