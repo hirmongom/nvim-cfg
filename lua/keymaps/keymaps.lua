@@ -3,6 +3,8 @@ local globals = require("globals")
 local wrappers = require("keymaps.wrappers")
 
 -- Buffers -----------------------------------------------------------------------------------------
+local buff = require("util.buffer")
+
 keymap(
   "n",
   "<leader><Tab>",
@@ -22,6 +24,13 @@ keymap(
   "<leader>p",
   "<cmd>bp<CR>",
   { desc = "Switch to previous buffer in list" }
+)
+
+keymap(
+  "n",
+  "<leader>;",
+  buff.jump,
+  { desc = "Prompt to jump to a buffer by bufnr" }
 )
 
 -- Highlights --------------------------------------------------------------------------------------
