@@ -15,4 +15,23 @@ M.jump = function()
 end
 
 ----------------------------------------------------------------------------------------------------
+function M.get_buffer_counts()
+  local listed = 0
+  local total = 0
+  for _, bufnr in ipairs(vim.api.nvim_list_bufs()) do
+    total = total + 1
+    if vim.api.nvim_buf_get_option(bufnr, "buflisted") then
+      listed = listed + 1
+    end
+  end
+  return listed, total
+end
+
+----------------------------------------------------------------------------------------------------
+function M.get_buffer_counts_str()
+  local listed, total = M.get_buffer_counts()
+  return string.format("%d(%d)", listed, total)
+end
+
+----------------------------------------------------------------------------------------------------
 return M

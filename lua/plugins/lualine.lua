@@ -14,6 +14,12 @@ require("lualine").setup {
     theme = onedark,
     section_separators = { left = "", right = "" },
     component_separators = { left = "", right = ""},
+    always_divide_middle = false,
+    disabled_filetypes = {
+      statusline = { "NvimTree" },
+      tabline = { "NvimTree" },
+      winbar = { "NvimTree" },
+    },
   },
   sections = {
     lualine_a = { "mode" },
@@ -25,8 +31,8 @@ require("lualine").setup {
       },
     },
     lualine_c = {},
-    lualine_x = { "encoding", "fileformat" },
-    lualine_y = {},
+    lualine_x = { function() return require("util.buffer").get_buffer_counts_str() end },
+    lualine_y = { "encoding", "fileformat" },
     lualine_z = { 
       { "location",
         color = custom_colour,
@@ -36,7 +42,16 @@ require("lualine").setup {
   tabline = {
     lualine_a = {
       { "filename",
+        newfile_status = true,
+        path = 1,
         color = custom_colour,
+        fmt = function(name)
+          local prefix = "NvimTree"
+          if name:sub(1, #prefix) == prefix then
+            return "\u{f07c}"
+          end
+          return name
+        end,
       },
       -- { "buffers", 
       --  mode = 4,
