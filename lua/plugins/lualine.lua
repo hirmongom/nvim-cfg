@@ -17,7 +17,6 @@ require("lualine").setup {
     always_divide_middle = false,
     disabled_filetypes = {
       statusline = { "NvimTree" },
-      tabline = { "NvimTree" },
       winbar = { "NvimTree" },
     },
   },
@@ -43,7 +42,7 @@ require("lualine").setup {
     lualine_a = {
       { "filename",
         newfile_status = true,
-        path = 1,
+        path = 0,
         color = custom_colour,
         fmt = function(name)
           local prefix = "NvimTree"
