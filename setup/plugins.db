@@ -11,3 +11,4 @@ Rainbow Delimiters,start,rainbow-delimiters,https://github.com/HiPhish/rainbow-d
 Indent Blankline,start,indent-blankline,https://github.com/lukas-reineke/indent-blankline.nvim.git
 Vim Match-up,start,vim-matchup,https://github.com/andymass/vim-matchup.git
 Buffer Manager,start,buffer_manager,https://github.com/j-morano/buffer_manager.nvim.git
+Comment,start,comment,https://github.com/numToStr/Comment.nvim.git

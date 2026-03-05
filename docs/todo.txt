@@ -8,6 +8,3 @@ Small Reformatting Project:
   - Add "event" prior to saving (:w) which reformats entire file to save based on programming
     language (file extension) and predefined "syntax conventions" (defined separately on files and
     with settings possibility of linking extension with convention file)
-
-Keymaps + behaviour:
-  - Select block/lines in visual, the "comment out" selected lines

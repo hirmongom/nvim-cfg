@@ -48,6 +48,36 @@ keymap(
   "<cmd>retab<CR>",
   { desc = "Change tab type to current config" }
 )
+-- Comment -----------------------------------------------------------------------------------------
+keymap(
+  { "n" },
+  "<leader>/",
+  "gcc",
+  { 
+    remap = true,
+    desc = "Comment/Uncomment current line",
+  }
+)
+
+keymap(
+  { "v" },
+  "<leader>/",
+  "gc",
+  {
+    remap = true,
+    desc = "Comment/Uncomment selected line(s) (line comment)",
+  }
+)
+
+keymap(
+  { "v" },
+  "<leader>?",
+  "gb",
+  {
+    remap = true,
+    desc = "Comment/Uncomment selected line(s) (block comment)",
+  }
+)
 
 -- Fill --------------------------------------------------------------------------------------------
 local fill = require("util.fill")

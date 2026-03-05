@@ -26,3 +26,6 @@ require("plugins/toggleterm")
 require("plugins/indent-blankline")
 require("plugins/vim-matchup")
 require("plugins/rainbow-delimiters")
+
+-- Comment
+require("plugins/comment")
