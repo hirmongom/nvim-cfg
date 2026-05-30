@@ -18,7 +18,7 @@ require("buffer_manager").setup {
   show_cols = "kbs", -- "numbers", "kbs", "both"
   loop_nav = true,
   order_buffers = "bufnr",
-  toggle_keybindings = { "q", "<ESC>" },
+  toggle_keybindings = { "b", "q", "<ESC>" },
 
   format_function = function(buf)
     -- window width of the floating window
@@ -40,9 +40,9 @@ require("buffer_manager").setup {
     end
 
     -- split path + filename
-    local filename = vim.fn.fnamemodify(buf, ":t") .. "  :" .. bufnr
+    local filename = vim.fn.fnamemodify(buf, ":t")
     local rel_path = buf:sub(#cwd + 1)
-    local path = "." .. vim.fn.fnamemodify(rel_path, ":h")
+    local path = vim.fn.fnamemodify(rel_path, ":h") .. "/  b#" .. bufnr
 
     -- avoid trailing "."
     if path == "." then
@@ -59,6 +59,6 @@ require("buffer_manager").setup {
       padding = 1
     end
     
-    return path .. string.rep(" ", padding) .. filename
+    return filename .. string.rep(" ", padding) .. path
   end
 }
