@@ -4,10 +4,13 @@ require("toggleterm").setup {
   direction = "tab",
   insert_mappings = false,
   terminal_mappings = false,
-
-  on_open = function(term)
-    vim.keymap.set("t", "<C-q>", [[<C-\><C-n>]], { 
-      buffer = term.bufnr, 
-      desc = "Return to Normal mode" })
-  end,
 }
+
+function _G.set_terminal_keymaps()
+  local opts = {buffer = 0}
+  vim.keymap.set("t", "<esc>", [[<C-\><C-n>]], opts)
+  vim.keymap.set("t", "<C-t>", "<cmd>ToggleTerm<CR>", opts)
+  vim.keymap.set("n", "<C-t>", "<cmd>ToggleTerm<CR>", opts)
+end
+
+vim.cmd("autocmd! TermOpen term://*toggleterm#* lua set_terminal_keymaps()")
